@@ -31,3 +31,11 @@ keytool -import -alias mycloset_link -keystore C:\JavaIDE\server\apache-tomcat-7
 ~~ 등록된 keystore 파일로 부터 PKCS12 파일로 만드는 법
 keytool -v -importkeystore -srckeystore C:\JavaIDE\server\apache-tomcat-7.0.72\certificate\mycloset_link.jks -srcalias mycloset_link -destkeystore myp12file.p12 -deststoretype PKCS12
 
+You can use following commands to extract public/private key from a PKCS#12 container:
+Private key:
+openssl pkcs12 -in yourP12File.pfx -nocerts -out privateKey.pem
+Certificates:
+openssl pkcs12 -in yourP12File.pfx -clcerts -nokeys -out publicCert.pem
+
+~~ OpenSSL 로 private Key 생성하고 이를 이용 CSR 까지 생성하는 방법 참고 사이트
+https://www.comodossl.co.kr/certificate/ssl-installation-guides/Apache-csr-crt.aspx
