@@ -16,7 +16,6 @@ public interface UserService {
 	
 	public void updateUser(User user) throws Exception;
 	
-	// ȸ�� ID �ߺ� Ȯ��
 	public boolean checkDuplication(String userId) throws Exception;
 	
 }

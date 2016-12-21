@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bootflat": "^2.0.4",
     "bootstrap": "^3.3.7",
     "jquery": "^1.12.4"
   }

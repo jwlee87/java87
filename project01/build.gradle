@@ -55,7 +55,7 @@ dependencies {
   // providedCompile 옵션을 사용하라!
   providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
   
-  compile fileTree(dir:'libs', include: '*.jar')
+  compile fileTree(dir:'libs', include: '*.jar')  
 }
 
 

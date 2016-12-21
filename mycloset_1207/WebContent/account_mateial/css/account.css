@@ -1,0 +1,95 @@
+@CHARSET "UTF-8";
+
+#accountWrap {
+	border-radius: 10px;
+    background: #fff;
+}
+
+input#email {
+	margin-bottom: 1.8rem;
+}
+
+input#nick, input#pwd, input#conf-pwd {
+	height: 2.5rem;
+	line-heght: 2.5rem;
+	margin: 0 0 15px 0;
+}
+
+.modal {
+	width: 50%;
+	max-height: 90%;
+}
+
+div#accountModal {
+	padding: 0px 25px;
+}
+
+.acnt-title {
+	margin-bottom: 30px;
+	border-bottom: 1px solid #ddd;
+}
+
+div#acnt-user-img {
+	width: 169px;
+	height: 169px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+img {
+	display: block;
+	width: 100%;
+	vertical-align: middle;
+	margin: auto;
+}
+
+.last-row {
+	margin-bottom: 30px;
+}
+
+.submitBtn {
+	margin-bottom: 0px;
+	padding-top: 12px;
+	border-top: 1px solid #ddd;
+}
+
+button.btn {
+	display: block;
+	line-height: 2rem;
+	height: 2rem;
+	padding: 0 1.5rem;
+	margin: auto;
+}
+
+#acnt-file-field {
+	
+}
+
+div#acnt-file-btn {
+	margin: auto;
+	width: 50%;
+	display: block;
+	height: 1.8rem;
+	line-height: 1.8rem;
+	padding: 0 0.8rem;
+	text-align: center;
+}
+
+div#acnt-file-btn>span {
+	font-size: 12px;
+	margin: auto;
+}
+
+#acnt-input-file {
+	width: 50%;
+	margin: auto;
+}
+
+div#acnt-file-path {
+	display: none;
+	height: 1.5px;
+}
+
+.file-field .btn {
+	float: none;
+}

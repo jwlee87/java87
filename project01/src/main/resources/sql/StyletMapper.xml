@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="StyleMapper">
+ 	
+	<resultMap id="StyleSelectMap" type="Style">
+		<result property="styleNo" 			column="STY_NO" 		jdbcType="NUMERIC" />
+		<result property="fileName" 		column="STY_IMGPATH"	jdbcType="VARCHAR" />
+		<result property="styleTitle" 		column="STY_TITLE" 		jdbcType="VARCHAR" />
+		<result property="infomation1" 		column="STY_INFO1"   	jdbcType="VARCHAR" />
+		<result property="infomation2" 		column="STY_INFO2"   	jdbcType="VARCHAR" />
+		<result property="infomation3" 		column="STY_INFO3"   	jdbcType="VARCHAR" />
+		<result property="infomation4" 		column="STY_INFO4"   	jdbcType="VARCHAR" />
+		<result property="infomation5" 		column="STY_INFO5"   	jdbcType="VARCHAR" />
+		<result property="hashTagString" 	column="STY_HASHTAG"   	jdbcType="VARCHAR" />
+		<result property="styleDesc" 	    column="STY_DESC"   	jdbcType="CLOB" />
+		<association property="user_no" select="UserMapper.getUser" column="USER_NO" javaType="bitcamp.java87.project01.domain.User"/>
+	</resultMap>
+	
+	<!-- SQL : INSERT -->
+	<insert 	id="addStyle"		parameterType="Style" >
+	 	INSERT
+		INTO Style
+		VALUES	 (Style_SEQ.NEXTVAL, #{userNo}, #{fileName}, #{styleTitle}, #{infomation1}, #{infomation2}, #{infomation3}, #{infomation4}, #{infomation5}, #{hashTagString}, #{styleDesc})
+	 </insert>
+	 
+	 <!-- SQL : SELECT ONE -->
+	 <select 	id="getStyle"	parameterType="string"	resultMap="StyleSelectMap">
+		SELECT
+		style_NO , style_NAME , style_DETAIL ,IMAGE_FILE , MANUFACTURE_DAY ,  PRICE , REG_DATE 		
+		FROM Style 
+		WHERE style_NO = #{value}
+	 </select>
+	 
+	 <!-- SQL : UPDATE -->
+	 <update	id="updateStyle"	parameterType="Style" >
+	   	UPDATE Style
+	   	<set>
+	   		style_NAME 	= #{styleName} ,
+			style_DETAIL	= #{styleDetail},
+			MANUFACTURE_DAY 	= #{manuDate} ,
+			PRICE				=	#{price}
+	   	</set>
+	   	WHERE style_NO = #{styleNo}
+	 </update>
+	 
+	 <!-- delete -->
+	 <delete id="deleteStyle" parameterType="int">
+	 	delete Style
+	 	where style_no = #{value}
+	 </delete>
+	 
+		 
+	<!-- SQL : SELECT LIST -->
+	<select  id="getStyleList"  parameterType="search"	resultMap="StyleSelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT A.style_NO, style_NAME , style_DETAIL , MANUFACTURE_DAY, PRICE, TRAN_STATUS_CODE
+											FROM Style a, TRANSACTION b
+											<if test="searchCondition != null">
+												<where>
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				style_NAME like '%${searchKeyword}%'
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				price like '%${searchKeyword}%'
+													</if>
+														and a.style_NO = b.style_NO(+)
+												</where>
+											</if>
+											<if test="searchCondition == null">
+												where a.style_NO = b.style_NO(+)
+											</if>
+											 ORDER BY a.style_NO ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	 	<!--  위 두번째 subQuery 의  
+	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
+	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
+	 			< 는 keyword 로 &lt; 를	사용.
+	 			
+	 			<![CDATA[  ~~~  ]]> 를 이용하여 아래와 같이 사용  할 수 있다.
+	 			CDATA ==> Character Data 의 의미 Java 에서 \n 같은 특수문자 처리  
+
+				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
+		-->
+	
+	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  	FROM(	SELECT style_NAME , style_DETAIL , MANUFACTURE_DAY, PRICE, TRAN_STATUS_CODE
+						FROM Style a, TRANSACTION b
+						<if test="searchCondition != null">
+							<where>
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+						 			style_NAME like '${searchKeyword}%'
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+						 			price like '${searchKeyword}%'
+								</if>
+									and a.style_NO = b.style_NO(+)
+							</where>
+						</if>
+					<if test="searchCondition == null">
+						where a.style_NO = b.style_NO(+)
+					</if>
+				) countTable						
+	 </select>
+	 
+</mapper>
